@@ -19,7 +19,7 @@ class Value extends React.Component{
                 <h2>Values</h2>
                 <ul>
                     {this.state.values.map(value =>
-                        <li key={value.id}>{value.name}</li>
+                        <li>{value.UserId}</li>
                     )}
                 </ul>
             </div>
