@@ -9,7 +9,7 @@ class Value extends React.Component{
       }
     }
     componentDidMount(){
-      fetch('/api/values')
+      fetch('/api/users')
         .then(data => data.json())
         .then(values => this.setState({values}));
     }
