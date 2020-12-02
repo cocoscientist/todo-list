@@ -51,12 +51,12 @@ app.post('/api/users/check',(req,res)=>{
         UserId: req.body.UserId,
         Password: req.body.Password
     };
-    let que = 'SELECT UserId, Password FROM Users WHERE ?';
-    con.query(que,data,(err,result,fields)=>{
+    let que = 'SELECT UserId, Password FROM Users WHERE UserId=\"'+data.UserId+'\" AND PASSWORD=\"'+data.Password+'\"';
+    con.query(que,(err,result,fields)=>{
         if(err) throw err;
         res.json({
             success: true,
-            results:result
+            results: result.length
         });
     })
 });
@@ -64,9 +64,9 @@ app.post('/api/users/check',(req,res)=>{
 app.post('/api/todos/add/:user',(req,res)=>{
     let data = {
         UserId: req.params.user,
-        //todo
+        Title: req.body.title
     };
-    let que = 'INSERT INTO Users SET ?';
+    let que = 'INSERT INTO Users (UserId,Title) SET ?';
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;
         res.json({

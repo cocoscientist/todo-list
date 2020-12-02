@@ -1,5 +1,4 @@
 import React from 'react'
-import './values.css';
 
 class Value extends React.Component{
     constructor(){
@@ -32,8 +31,7 @@ class Value extends React.Component{
             },
             body: JSON.stringify(this.state)
         })
-        .then((result) => result.json())
-        .then(info=>{console.log(info)});
+        .then((result) => result.json());
     }
     render(){
         const notDone=<h1>Not Submitted</h1>;
