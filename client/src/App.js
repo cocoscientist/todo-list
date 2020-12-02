@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css';
-import Value from './components/values';
+import SignUp from './components/signup';
 
 class App extends React.Component{
   constructor(){
@@ -8,7 +8,7 @@ class App extends React.Component{
   }
   render(){
     return(
-      <Value />
+      <SignUp />
     )
   }
 };

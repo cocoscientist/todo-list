@@ -28,7 +28,9 @@ app.post('/api/users/add',(req,res)=>{
         if(err) throw err;
         res.json({
             success: true,
-            results:result
+            results:result,
+            UserId: data.UserId,
+            Password: data.Password
         });
     })
 });
