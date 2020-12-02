@@ -11,13 +11,6 @@ var con = mysql.createConnection({
     database:'TODOS'
 });
 
-app.get('/api/users',(req,res)=>{
-    con.query('SELECT UserId FROM Users',(err,result,fields)=>{
-        if(err) throw err;
-        res.json(result);
-    })
-});
-
 app.post('/api/users/add',(req,res)=>{
     let data = {
         UserId: req.body.UserId,

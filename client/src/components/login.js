@@ -1,6 +1,6 @@
 import React from 'react'
 
-class SignUp extends React.Component{
+class Login extends React.Component{
     constructor(){
       super();
       this.state = {
@@ -24,14 +24,19 @@ class SignUp extends React.Component{
     }
     handleSubmit(event){
         event.preventDefault();
-        fetch('/api/users/add',{
+        fetch('/api/users/check',{
             method: "POST",
             headers: {
               'Content-type': 'application/json'
             },
             body: JSON.stringify(this.state)
         })
-        .then((result) => result.json());
+        .then((result) => result.json())
+        .then((res)=>{
+            this.setState({
+                SignedUp:(res.results==1)
+            });
+        });
     }
     render(){
         const notDone=<h1>Not Submitted</h1>;
@@ -51,4 +56,4 @@ class SignUp extends React.Component{
     }
 };
 
-export default SignUp;
+export default Login;
