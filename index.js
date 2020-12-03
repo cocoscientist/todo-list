@@ -2,12 +2,15 @@ const express = require('express')
 const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 app.use(
     bodyParser.urlencoded({
         extended:false
     })  
 );
 app.use(bodyParser.json());
+app.use(cors());
+
 const validator = require('./validation/Validation');
 
 var con = mysql.createConnection({
@@ -32,7 +35,10 @@ app.post('/api/users/register',(req,res)=>{
     };
     const { errors, isValid} = validator.validationFunc(data);
     if(!isValid){
-        return res.status(400).json(errors);
+        return res.json({
+            success: false,
+            results: ''
+        });
     }
 
     let que = 'INSERT INTO Users SET ?';
@@ -57,7 +63,7 @@ app.get('/api/todos/:user',(req,res)=>{
     });
 });
 
-app.post('/api/users/login',(req,res)=>{
+app.post('/api/users/login',(req,res,next)=>{
     let data = {
         UserId: req.body.UserId,
         Password: req.body.Password

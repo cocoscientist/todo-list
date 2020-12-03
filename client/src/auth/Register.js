@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
 import { Link } from 'react-router-dom';
+//import Calls from '../commons';
 
 class Register extends Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             UserId:'',
             Password:'',
@@ -23,7 +24,14 @@ class Register extends Component{
             UserId: this.state.UserId,
             Password: this.state.Password
         };
-        console.log(newUser);
+        Calls.addUser(newUser)
+        .then(res=>{
+            if(res.success){
+                this.props.history.push('/login');
+            }else{
+                this.props.history.push('/register');
+            }
+        })
     }
 
     render(){
