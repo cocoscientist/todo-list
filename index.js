@@ -2,7 +2,13 @@ const express = require('express')
 const app = express();
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
+app.use(
+    bodyParser.urlencoded({
+        extended:false
+    })  
+);
 app.use(bodyParser.json());
+const validator = require('./validation/Validation');
 
 var con = mysql.createConnection({
     host:'localhost',
@@ -11,19 +17,31 @@ var con = mysql.createConnection({
     database:'TODOS'
 });
 
-app.post('/api/users/add',(req,res)=>{
+app.get('/api/users/count/:user',(req,res)=>{
+    let que = 'SELECT COUNT(*) FROM Users WHERE UserId=\"'+req.params.user+'\"';
+    con.query(que,(err,result,fields)=>{
+        if(err) throw err;
+        res.json(result);
+    });
+});
+
+app.post('/api/users/register',(req,res)=>{
     let data = {
         UserId: req.body.UserId,
         Password: req.body.Password
     };
+    const { errors, isValid} = validator.validationFunc(data);
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
+
     let que = 'INSERT INTO Users SET ?';
+    
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;
         res.json({
             success: true,
-            results:result,
-            UserId: data.UserId,
-            Password: data.Password
+            results: data
         });
     })
 });
@@ -39,7 +57,7 @@ app.get('/api/todos/:user',(req,res)=>{
     });
 });
 
-app.post('/api/users/check',(req,res)=>{
+app.post('/api/users/login',(req,res)=>{
     let data = {
         UserId: req.body.UserId,
         Password: req.body.Password
@@ -48,8 +66,7 @@ app.post('/api/users/check',(req,res)=>{
     con.query(que,(err,result,fields)=>{
         if(err) throw err;
         res.json({
-            success: true,
-            results: result.length
+            success: (result.length===1),
         });
     })
 });
