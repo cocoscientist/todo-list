@@ -77,17 +77,17 @@ app.post('/api/users/login',(req,res,)=>{
     })
 });
 
-app.post('/api/todos/add/:user',(req,res)=>{
+app.post('/api/todos/add',(req,res)=>{
     let data = {
-        UserId: req.params.user,
-        Title: req.body.title
+        UserId: req.body.UserId,
+        Title: req.body.Title
     };
-    let que = 'INSERT INTO Users (UserId,Title) SET ?';
+    let que = 'INSERT INTO Todos (UserId,Title) VALUES (\"'+data.UserId+'\",\"'+data.Title+'\")';
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;
         res.json({
             success: true,
-            results:result
+            results: result
         });
     })
 });
