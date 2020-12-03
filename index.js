@@ -63,7 +63,7 @@ app.get('/api/todos/:user',(req,res)=>{
     });
 });
 
-app.post('/api/users/login',(req,res,next)=>{
+app.post('/api/users/login',(req,res,)=>{
     let data = {
         UserId: req.body.UserId,
         Password: req.body.Password

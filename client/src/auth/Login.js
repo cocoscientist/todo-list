@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 //import Calls from '../commons';
 
 class Login extends Component{
@@ -24,22 +25,15 @@ class Login extends Component{
             UserId: this.state.UserId,
             Password: this.state.Password
         };
-        fetch('http://localhost:5000/api/users/login',{
-            method:'POST',
-            headers: {
-                'Content-Type':'application/json'
-            },
-            body: userData
-        }).then(res=>res.json())
-          .then(result=>{
-              if(result.success){
-                  console.log("It's a success");
-                  this.props.history.push('/home');
-              }else{
-                  console.log("It failed");
-                  this.props.history.push('/login');
-              }
-          })
+        axios.post('/api/users/login',userData)
+        .then(res=>{
+            if(res.success){
+                console.log("Success");
+                this.props.history.push('/main');
+            }else{
+                this.props.history.push('/login');
+            }
+        })
     }
 
     render(){

@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 //import Calls from '../commons';
 
 class Register extends Component{
@@ -24,9 +25,10 @@ class Register extends Component{
             UserId: this.state.UserId,
             Password: this.state.Password
         };
-        Calls.addUser(newUser)
+        axios.post('/api/users/register',newUser)
         .then(res=>{
             if(res.success){
+                console.log("It worked");
                 this.props.history.push('/login');
             }else{
                 this.props.history.push('/register');
