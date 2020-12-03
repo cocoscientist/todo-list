@@ -30,7 +30,10 @@ class Login extends Component{
             console.log(res);
             if(res.data.success){
                 console.log("Success");
-                this.props.history.push('/main');
+                this.props.history.push({
+                    pathname:'/main',
+                    state: userData
+                });
             }else{
                 this.props.history.push('/login');
             }
