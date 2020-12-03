@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import store from "./store";
-import Navbar from "./components/layout/navbar";
-import Landing from "./components/layout/landing";
-import Register from "./components/auth/register";
-import Login from "./components/auth/login";
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import "./App.css";
+import Navbar from './components/Navbar';
+import Landing from './components/Landing';
+import Register from './auth/Register';
+import Login from './auth/Login';
+
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
       <Router>
         <div className="App">
           <Navbar />
@@ -18,7 +17,6 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
         </div>
       </Router>
-      </Provider>
     );
   }
 }
