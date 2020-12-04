@@ -33,7 +33,26 @@ class Main extends React.Component{
                 inputValue:'',
                 todos: todoItems
             });
-            this.render();
+        })
+    }
+
+    makeChange = id =>{
+        const updateData = {
+            TodoId: id
+        };
+        axios.put('/api/todos/change',updateData)
+        .then(res=>{
+            console.log(res);
+        })
+    }
+
+    deletionFunc = id =>{
+        const deleteData = {
+            TodoId: id
+        };
+        axios.delete('/api/todos/delete/'+deleteData.TodoId)
+        .then(res=>{
+            console.log(res);
         })
     }
 
@@ -55,9 +74,10 @@ class Main extends React.Component{
 
     render(){
         const tasksDone = this.state.todos.filter(task=> task.Status===1);
-        const tasksComplete = tasksDone.map(task=>(<Todo todoId={task.TodoId} title={task.Title} status={task.Status} />));
+        const tasksComplete = tasksDone.map(task=>(<li key={task.TodoId} style={{listStyleType:"none"}}><button className="waves-effect waves-light btn" onClick={()=>this.deletionFunc(task.TodoId)}>DELETE</button><Todo todoId={task.TodoId} title={task.Title} status={task.Status} /></li>));
         const tasksLeft = this.state.todos.filter(task=> task.Status===0);
-        const tasksRemain = tasksLeft.map(task=>(<Todo todoId={task.TodoId} title={task.Title} status={task.Status} />));
+        //const tasksRemain = tasksLeft.map(task=>(<Todo todoId={task.TodoId} title={task.Title} status={task.Status} />));
+        const tasksRemain = tasksLeft.map(task=>(<li key={task.TodoId} style={{listStyleType:"none"}}><button className="waves-effect waves-light btn" onClick={()=>this.makeChange(task.TodoId)}>MARK AS COMPLETE</button><Todo todoId={task.TodoId} title={task.Title} status={task.Status} /></li>));
         return(
         <div>
         <h4>Welcome, {this.state.UserId}</h4>

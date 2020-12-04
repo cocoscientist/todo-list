@@ -92,8 +92,33 @@ app.post('/api/todos/add',(req,res)=>{
     })
 });
 
-app.delete('/api/todos/delete',(req,res)=>{
-    //todo
+app.put('/api/todos/change',(req,res)=>{
+    let data={
+        TodoId: req.body.TodoId
+    }
+    let que = 'UPDATE Todos SET Status=1 WHERE TodoId='+data.TodoId;
+    con.query(que,data,(err,result,fields)=>{
+        if(err) throw err;
+        res.json({
+            success: true,
+            results: result
+        });
+    })
+})
+
+app.delete('/api/todos/delete/:id',(req,res)=>{
+    let data={
+        TodoId: req.params.id
+    }
+    console.log(data);
+    let que = 'DELETE FROM Todos WHERE TodoId='+data.TodoId;
+    con.query(que,data,(err,result,fields)=>{
+        if(err) throw err;
+        res.json({
+            success: true,
+            results: result
+        });
+    });
 });
 
 app.listen(5000,()=>console.log("Started on 5000"));
