@@ -43,6 +43,12 @@ class Main extends React.Component{
         axios.put('/api/todos/change',updateData)
         .then(res=>{
             console.log(res);
+            let currentTodos = this.state.todos;
+            let index = currentTodos.findIndex(x => x.TodoId===id);
+            currentTodos[index].Status = 1;
+            this.setState({
+                todos: currentTodos
+            });
         })
     }
 
@@ -53,6 +59,12 @@ class Main extends React.Component{
         axios.delete('/api/todos/delete/'+deleteData.TodoId)
         .then(res=>{
             console.log(res);
+            let currentTodos = this.state.todos;
+            let index = currentTodos.findIndex(x => x.TodoId===id);
+            currentTodos.splice(index,1);
+            this.setState({
+                todos: currentTodos
+            });
         })
     }
 
