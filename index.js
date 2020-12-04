@@ -20,14 +20,6 @@ var con = mysql.createConnection({
     database:'TODOS'
 });
 
-app.get('/api/users/count/:user',(req,res)=>{
-    let que = 'SELECT COUNT(*) FROM Users WHERE UserId=\"'+req.params.user+'\"';
-    con.query(que,(err,result,fields)=>{
-        if(err) throw err;
-        res.json(result);
-    });
-});
-
 app.post('/api/users/register',(req,res)=>{
     let data = {
         UserId: req.body.UserId,
