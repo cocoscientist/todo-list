@@ -8,7 +8,8 @@ class Main extends React.Component{
         this.state = {
             UserId: '',
             todos: [],
-            inputValue: ''
+            inputValue: '',
+            priority: 1
         }
     }
 
@@ -18,17 +19,24 @@ class Main extends React.Component{
         });
     }
 
+    onPriority = event=>{
+        this.setState({
+            priority: parseInt(event.target.value,10)
+        });
+    }
+
     onSubmit = event =>{
         event.preventDefault();
         const todoData = {
             UserId: this.state.UserId,
-            Title: this.state.inputValue
+            Title: this.state.inputValue,
+            Priority: this.state.priority
         };
         axios.post('/api/todos/add',todoData)
         .then(res=>{
             console.log(res);
             let todoItems = this.state.todos;
-            todoItems.push({TodoId: res.data.results.insertId, Title:todoData.Title, Status: 0});
+            todoItems.push({TodoId: res.data.results.insertId, Title:todoData.Title, Status: 0, Priority:todoData.Priority});
             this.setState({
                 inputValue:'',
                 todos: todoItems
@@ -98,9 +106,18 @@ class Main extends React.Component{
         <div>
         <h4>Welcome, {this.state.UserId}</h4>
         <form noValidate onSubmit={this.onSubmit}>
+        <div class="row">
         <div className = "input-field col s6">
-            <input onChange={this.onChange} value={this.state.inputValue} type="text" id="Title" />
+            <input onChange={this.onChange} value={this.state.inputValue} type="text" name="inputValue" id="Title" />
             <label htmlFor="todoTitle">Enter Todo Title</label>
+        </div>
+        <div className="input-field col s6">
+            <select value={this.state.priority} onChange={this.onPriority} className="browser-default">
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+            </select>
+        </div>
         </div>
         <div className="col s12" style={{ paddingLeft: "11.250px" }}>
         <button style={{width: "150px", borderRadius: "3px", letterSpacing: "1.5px", marginTop: "1rem" }} type="submit" className="btn waves-effect waves-light hoverable blue accent-3">
