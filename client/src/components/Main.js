@@ -32,6 +32,7 @@ class Main extends React.Component{
             Title: this.state.inputValue,
             Priority: this.state.priority
         };
+        console.log(todoData);
         axios.post('/api/todos/add',todoData)
         .then(res=>{
             console.log(res);
