@@ -45,7 +45,7 @@ app.post('/api/users/register',(req,res)=>{
 });
 
 app.get('/api/todos/:user',(req,res)=>{
-    let que = 'SELECT TodoId,Title,Status FROM Todos WHERE UserId=\"'+req.params.user+'\"';
+    let que = 'SELECT TodoId,Title,Status,Priority FROM Todos WHERE UserId=\"'+req.params.user+'\"';
     con.query(que,(err,result,fields)=>{
         if(err) throw err;
         res.json({
@@ -72,9 +72,11 @@ app.post('/api/users/login',(req,res,)=>{
 app.post('/api/todos/add',(req,res)=>{
     let data = {
         UserId: req.body.UserId,
-        Title: req.body.Title
+        Title: req.body.Title,
+        Priority: req.body.Priority
     };
-    let que = 'INSERT INTO Todos (UserId,Title) VALUES (\"'+data.UserId+'\",\"'+data.Title+'\")';
+    console.log(data);
+    let que = 'INSERT INTO Todos (UserId,Title,Priority) VALUES (\"'+data.UserId+'\",\"'+data.Title+'\",'+data.Priority+')';
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;
         res.json({
