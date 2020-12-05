@@ -45,7 +45,7 @@ app.post('/api/users/register',(req,res)=>{
 });
 
 app.get('/api/todos/:user',(req,res)=>{
-    let que = 'SELECT TodoId,Title,Status FROM Todos WHERE UserId=\"'+req.params.user+'\"';
+    let que = 'SELECT TodoId,Title,Status,Priority FROM Todos WHERE UserId=\"'+req.params.user+'\"';
     con.query(que,(err,result,fields)=>{
         if(err) throw err;
         res.json({
