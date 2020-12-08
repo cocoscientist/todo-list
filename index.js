@@ -75,7 +75,6 @@ app.post('/api/todos/add',(req,res)=>{
         Title: req.body.Title,
         Priority: req.body.Priority
     };
-    console.log(data);
     let que = 'INSERT INTO Todos (UserId,Title,Priority) VALUES (\"'+data.UserId+'\",\"'+data.Title+'\",'+data.Priority+')';
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;
@@ -104,7 +103,6 @@ app.delete('/api/todos/delete/:id',(req,res)=>{
     let data={
         TodoId: req.params.id
     }
-    console.log(data);
     let que = 'DELETE FROM Todos WHERE TodoId='+data.TodoId;
     con.query(que,data,(err,result,fields)=>{
         if(err) throw err;

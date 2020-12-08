@@ -27,9 +27,8 @@ class Login extends Component{
         };
         axios.post('/api/users/login',userData)
         .then(res=>{
-            console.log(res);
+            
             if(res.data.success){
-                console.log("Success");
                 this.props.history.push({
                     pathname:'/main',
                     state: userData
