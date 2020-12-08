@@ -9,7 +9,8 @@ class Main extends React.Component{
             UserId: '',
             todos: [],
             inputValue: '',
-            priority: 1
+            priority: 1,
+            lth: false
         }
     }
 
@@ -25,6 +26,7 @@ class Main extends React.Component{
         });
     }
 
+    
     onSubmit = event =>{
         event.preventDefault();
         const todoData = {
@@ -35,7 +37,7 @@ class Main extends React.Component{
         console.log(todoData);
         axios.post('/api/todos/add',todoData)
         .then(res=>{
-            console.log(res);
+            
             let todoItems = this.state.todos;
             todoItems.push({TodoId: res.data.results.insertId, Title:todoData.Title, Status: 0, Priority:todoData.Priority});
             this.setState({
@@ -51,7 +53,7 @@ class Main extends React.Component{
         };
         axios.put('/api/todos/change',updateData)
         .then(res=>{
-            console.log(res);
+            
             let currentTodos = this.state.todos;
             let index = currentTodos.findIndex(x => x.TodoId===id);
             currentTodos[index].Status = 1;
@@ -67,7 +69,7 @@ class Main extends React.Component{
         };
         axios.delete('/api/todos/delete/'+deleteData.TodoId)
         .then(res=>{
-            console.log(res);
+            
             let currentTodos = this.state.todos;
             let index = currentTodos.findIndex(x => x.TodoId===id);
             currentTodos.splice(index,1);
@@ -84,7 +86,7 @@ class Main extends React.Component{
             let name = this.props.location.state.UserId;
             axios.get('/api/todos/'+name)
             .then(res=>{
-                console.log(res.data.results);
+                
                 this.setState({
                     UserId: name,
                     todos: res.data.results
@@ -99,7 +101,6 @@ class Main extends React.Component{
         const tasksLeftHigh = this.state.todos.filter(task=> task.Status===0 && task.Priority===3);
         const tasksLeftMid = this.state.todos.filter(task=> task.Status===0 && task.Priority===2);
         const tasksLeftLow = this.state.todos.filter(task=> task.Status===0 && task.Priority===1);
-        //const tasksRemain = tasksLeft.map(task=>(<Todo todoId={task.TodoId} title={task.Title} status={task.Status} />));
         const tasksRemainHigh = tasksLeftHigh.map(task=>(<li key={task.TodoId} style={{listStyleType:"none"}}><button className="waves-effect waves-light btn" onClick={()=>this.makeChange(task.TodoId)}>MARK AS COMPLETE</button><Todo todoId={task.TodoId} title={task.Title} status={task.Status} priority={task.Priority} /></li>));
         const tasksRemainMid = tasksLeftMid.map(task=>(<li key={task.TodoId} style={{listStyleType:"none"}}><button className="waves-effect waves-light btn" onClick={()=>this.makeChange(task.TodoId)}>MARK AS COMPLETE</button><Todo todoId={task.TodoId} title={task.Title} status={task.Status} priority={task.Priority} /></li>));
         const tasksRemainLow = tasksLeftLow.map(task=>(<li key={task.TodoId} style={{listStyleType:"none"}}><button className="waves-effect waves-light btn" onClick={()=>this.makeChange(task.TodoId)}>MARK AS COMPLETE</button><Todo todoId={task.TodoId} title={task.Title} status={task.Status} priority={task.Priority} /></li>));
@@ -126,6 +127,7 @@ class Main extends React.Component{
         </button>
         </div>
         </form>
+        
         <div className="divider"></div>
         <div className="row">
             <div className="col s6">
