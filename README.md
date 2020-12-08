@@ -18,4 +18,4 @@ Followed By
 ```
 npm run dev
 ```
-
+Running this app requires installing mysql
